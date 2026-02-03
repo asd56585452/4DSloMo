@@ -1,0 +1,148 @@
+/usr/local/lib/python3.12/dist-packages/torchmetrics/utilities/prints.py:62: FutureWarning: Importing `MultiScaleStructuralSimilarityIndexMeasure` from `torchmetrics` was deprecated and will be removed in 2.0. Import `MultiScaleStructuralSimilarityIndexMeasure` from `torchmetrics.image` instead.
+  _future_warning(
+[1/6] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output rasterizer_impl.cuda.o.d -DTORCH_EXTENSION_NAME=diff_gaussian_rasterization -DTORCH_API_INCLUDE_EXTENSION_H -isystem /usr/local/lib/python3.12/dist-packages/torch/include -isystem /usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /usr/include/python3.12 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 --compiler-options '-fPIC' -I /code/diff-gaussian-rasterization/third_party/glm/ -g -std=c++17 -c /code/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.cu -o rasterizer_impl.cuda.o 
+FAILED: [code=2] rasterizer_impl.cuda.o 
+/usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output rasterizer_impl.cuda.o.d -DTORCH_EXTENSION_NAME=diff_gaussian_rasterization -DTORCH_API_INCLUDE_EXTENSION_H -isystem /usr/local/lib/python3.12/dist-packages/torch/include -isystem /usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /usr/include/python3.12 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 --compiler-options '-fPIC' -I /code/diff-gaussian-rasterization/third_party/glm/ -g -std=c++17 -c /code/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.cu -o rasterizer_impl.cuda.o 
+/code/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.h(24): error: namespace "std" has no member "uintptr_t"
+    std::size_t offset = (reinterpret_cast<std::uintptr_t>(chunk) + alignment - 1) & ~(alignment - 1);
+                                                ^
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.h(40): error: identifier "uint32_t" is undefined
+    uint32_t* point_offsets;
+    ^
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.h(41): error: identifier "uint32_t" is undefined
+    uint32_t* tiles_touched;
+    ^
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.h(49): error: identifier "uint32_t" is undefined
+    uint32_t* n_contrib;
+    ^
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.h(58): error: identifier "uint64_t" is undefined
+    uint64_t* point_list_keys_unsorted;
+    ^
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.h(59): error: identifier "uint64_t" is undefined
+    uint64_t* point_list_keys;
+    ^
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.h(60): error: identifier "uint32_t" is undefined
+    uint32_t* point_list_unsorted;
+    ^
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.h(61): error: identifier "uint32_t" is undefined
+    uint32_t* point_list;
+    ^
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.cu(185): warning #549-D: variable "binning" is used before its value is set
+   obtain(chunk, binning.point_list, P, 128);
+                 ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+8 errors detected in the compilation of "/code/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.cu".
+[2/6] c++ -MMD -MF ext.o.d -DTORCH_EXTENSION_NAME=diff_gaussian_rasterization -DTORCH_API_INCLUDE_EXTENSION_H -isystem /usr/local/lib/python3.12/dist-packages/torch/include -isystem /usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /usr/include/python3.12 -fPIC -std=c++17 -c /code/diff-gaussian-rasterization/ext.cpp -o ext.o 
+[3/6] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output forward.cuda.o.d -DTORCH_EXTENSION_NAME=diff_gaussian_rasterization -DTORCH_API_INCLUDE_EXTENSION_H -isystem /usr/local/lib/python3.12/dist-packages/torch/include -isystem /usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /usr/include/python3.12 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 --compiler-options '-fPIC' -I /code/diff-gaussian-rasterization/third_party/glm/ -g -std=c++17 -c /code/diff-gaussian-rasterization/cuda_rasterizer/forward.cu -o forward.cuda.o 
+/code/diff-gaussian-rasterization/cuda_rasterizer/auxiliary.h(150): warning #177-D: variable "p_proj" was declared but never referenced
+   float3 p_proj = { p_hom.x * p_w, p_hom.y * p_w, p_hom.z * p_w };
+          ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/auxiliary.h(150): warning #177-D: variable "p_proj" was declared but never referenced
+   float3 p_proj = { p_hom.x * p_w, p_hom.y * p_w, p_hom.z * p_w };
+          ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/auxiliary.h(150): warning #177-D: variable "p_proj" was declared but never referenced
+   float3 p_proj = { p_hom.x * p_w, p_hom.y * p_w, p_hom.z * p_w };
+          ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/auxiliary.h(150): warning #177-D: variable "p_proj" was declared but never referenced
+   float3 p_proj = { p_hom.x * p_w, p_hom.y * p_w, p_hom.z * p_w };
+          ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/auxiliary.h(150): warning #177-D: variable "p_proj" was declared but never referenced
+   float3 p_proj = { p_hom.x * p_w, p_hom.y * p_w, p_hom.z * p_w };
+          ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/auxiliary.h(150): warning #177-D: variable "p_proj" was declared but never referenced
+   float3 p_proj = { p_hom.x * p_w, p_hom.y * p_w, p_hom.z * p_w };
+          ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+[4/6] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output backward.cuda.o.d -DTORCH_EXTENSION_NAME=diff_gaussian_rasterization -DTORCH_API_INCLUDE_EXTENSION_H -isystem /usr/local/lib/python3.12/dist-packages/torch/include -isystem /usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /usr/include/python3.12 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 --compiler-options '-fPIC' -I /code/diff-gaussian-rasterization/third_party/glm/ -g -std=c++17 -c /code/diff-gaussian-rasterization/cuda_rasterizer/backward.cu -o backward.cuda.o 
+/code/diff-gaussian-rasterization/cuda_rasterizer/auxiliary.h(150): warning #177-D: variable "p_proj" was declared but never referenced
+   float3 p_proj = { p_hom.x * p_w, p_hom.y * p_w, p_hom.z * p_w };
+          ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/auxiliary.h(150): warning #177-D: variable "p_proj" was declared but never referenced
+   float3 p_proj = { p_hom.x * p_w, p_hom.y * p_w, p_hom.z * p_w };
+          ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/auxiliary.h(150): warning #177-D: variable "p_proj" was declared but never referenced
+   float3 p_proj = { p_hom.x * p_w, p_hom.y * p_w, p_hom.z * p_w };
+          ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/auxiliary.h(150): warning #177-D: variable "p_proj" was declared but never referenced
+   float3 p_proj = { p_hom.x * p_w, p_hom.y * p_w, p_hom.z * p_w };
+          ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/auxiliary.h(150): warning #177-D: variable "p_proj" was declared but never referenced
+   float3 p_proj = { p_hom.x * p_w, p_hom.y * p_w, p_hom.z * p_w };
+          ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/code/diff-gaussian-rasterization/cuda_rasterizer/auxiliary.h(150): warning #177-D: variable "p_proj" was declared but never referenced
+   float3 p_proj = { p_hom.x * p_w, p_hom.y * p_w, p_hom.z * p_w };
+          ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+[5/6] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output rasterize_points.cuda.o.d -DTORCH_EXTENSION_NAME=diff_gaussian_rasterization -DTORCH_API_INCLUDE_EXTENSION_H -isystem /usr/local/lib/python3.12/dist-packages/torch/include -isystem /usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /usr/include/python3.12 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 --compiler-options '-fPIC' -I /code/diff-gaussian-rasterization/third_party/glm/ -g -std=c++17 -c /code/diff-gaussian-rasterization/rasterize_points.cu -o rasterize_points.cuda.o 
+ninja: build stopped: subcommand failed.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/cpp_extension.py", line 2592, in _run_ninja_build
+    subprocess.run(
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['ninja', '-v']' returned non-zero exit status 2.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/code/train.py", line 17, in <module>
+    from gaussian_renderer import render
+  File "/code/gaussian_renderer/__init__.py", line 15, in <module>
+    from .diff_gaussian_rasterization import GaussianRasterizationSettings, GaussianRasterizer
+  File "/code/gaussian_renderer/diff_gaussian_rasterization.py", line 19, in <module>
+    _C = load(
+         ^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/cpp_extension.py", line 1692, in load
+    return _jit_compile(
+           ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/cpp_extension.py", line 2134, in _jit_compile
+    _write_ninja_file_and_build_library(
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/cpp_extension.py", line 2286, in _write_ninja_file_and_build_library
+    _run_ninja_build(
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/cpp_extension.py", line 2609, in _run_ninja_build
+    raise RuntimeError(message) from e
+RuntimeError: Error building extension 'diff_gaussian_rasterization'

@@ -7,5 +7,5 @@ kornia==0.6.12
 omegaconf==2.3.0
 torchmetrics
 plyfile
-./simple-knn
-./pointops2
+# ./simple-knn
+# ./pointops2

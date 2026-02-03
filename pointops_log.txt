@@ -1,0 +1,145 @@
+
+=============
+== PyTorch ==
+=============
+
+NVIDIA Release 25.10 (build 222058774)
+PyTorch Version 2.9.0a0+145a3a7
+Container image Copyright (c) 2025, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+Copyright (c) 2014-2024 Facebook Inc.
+Copyright (c) 2011-2014 Idiap Research Institute (Ronan Collobert)
+Copyright (c) 2012-2014 Deepmind Technologies    (Koray Kavukcuoglu)
+Copyright (c) 2011-2012 NEC Laboratories America (Koray Kavukcuoglu)
+Copyright (c) 2011-2013 NYU                      (Clement Farabet)
+Copyright (c) 2006-2010 NEC Laboratories America (Ronan Collobert, Leon Bottou, Iain Melvin, Jason Weston)
+Copyright (c) 2006      Idiap Research Institute (Samy Bengio)
+Copyright (c) 2001-2004 Idiap Research Institute (Ronan Collobert, Samy Bengio, Johnny Mariethoz)
+Copyright (c) 2015      Google Inc.
+Copyright (c) 2015      Yangqing Jia
+Copyright (c) 2013-2016 The Caffe contributors
+All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+GOVERNING TERMS: The software and materials are governed by the NVIDIA Software License Agreement
+(found at https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-software-license-agreement/)
+and the Product-Specific Terms for NVIDIA AI Products
+(found at https://www.nvidia.com/en-us/agreements/enterprise-software/product-specific-terms-for-ai-products/).
+
+NOTE: The SHMEM allocation limit is set to the default of 64MB.  This may be
+   insufficient for PyTorch.  NVIDIA recommends the use of the following flags:
+   docker run --gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 ...
+
+Using pip 25.3 from /usr/local/lib/python3.12/dist-packages/pip (python 3.12)
+Processing ./pointops2
+  Preparing metadata (pyproject.toml): started
+  Running command Preparing metadata (pyproject.toml)
+  running dist_info
+  creating /tmp/pip-modern-metadata-8xojgycv/pointops2.egg-info
+  writing /tmp/pip-modern-metadata-8xojgycv/pointops2.egg-info/PKG-INFO
+  writing dependency_links to /tmp/pip-modern-metadata-8xojgycv/pointops2.egg-info/dependency_links.txt
+  writing requirements to /tmp/pip-modern-metadata-8xojgycv/pointops2.egg-info/requires.txt
+  writing top-level names to /tmp/pip-modern-metadata-8xojgycv/pointops2.egg-info/top_level.txt
+  writing manifest file '/tmp/pip-modern-metadata-8xojgycv/pointops2.egg-info/SOURCES.txt'
+  reading manifest file '/tmp/pip-modern-metadata-8xojgycv/pointops2.egg-info/SOURCES.txt'
+  writing manifest file '/tmp/pip-modern-metadata-8xojgycv/pointops2.egg-info/SOURCES.txt'
+  creating '/tmp/pip-modern-metadata-8xojgycv/pointops2-1.0.dist-info'
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: torch in /usr/local/lib/python3.12/dist-packages (from pointops2==1.0) (2.9.0a0+145a3a7bda.nv25.10)
+Requirement already satisfied: numpy in /usr/local/lib/python3.12/dist-packages (from pointops2==1.0) (1.26.4)
+Requirement already satisfied: filelock in /usr/local/lib/python3.12/dist-packages (from torch->pointops2==1.0) (3.20.0)
+Requirement already satisfied: typing-extensions>=4.10.0 in /usr/local/lib/python3.12/dist-packages (from torch->pointops2==1.0) (4.15.0)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.12/dist-packages (from torch->pointops2==1.0) (79.0.1)
+Requirement already satisfied: sympy>=1.13.3 in /usr/local/lib/python3.12/dist-packages (from torch->pointops2==1.0) (1.14.0)
+Requirement already satisfied: networkx>=2.5.1 in /usr/local/lib/python3.12/dist-packages (from torch->pointops2==1.0) (3.5)
+Requirement already satisfied: jinja2 in /usr/local/lib/python3.12/dist-packages (from torch->pointops2==1.0) (3.1.6)
+Requirement already satisfied: fsspec>=0.8.5 in /usr/local/lib/python3.12/dist-packages (from torch->pointops2==1.0) (2025.9.0)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in /usr/local/lib/python3.12/dist-packages (from sympy>=1.13.3->torch->pointops2==1.0) (1.3.0)
+Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.12/dist-packages (from jinja2->torch->pointops2==1.0) (3.0.3)
+Building wheels for collected packages: pointops2
+  Building wheel for pointops2 (pyproject.toml): started
+  Running command Building wheel for pointops2 (pyproject.toml)
+  running bdist_wheel
+  running build
+  running build_py
+  copying functions/pointops.py -> build/lib.linux-x86_64-cpython-312/pointops2
+  copying functions/test_relative_pos_encoding_op_step1_v2.py -> build/lib.linux-x86_64-cpython-312/pointops2
+  copying functions/test_relative_pos_encoding_op_step2_v2.py -> build/lib.linux-x86_64-cpython-312/pointops2
+  copying functions/test_attention_op_step2.py -> build/lib.linux-x86_64-cpython-312/pointops2
+  copying functions/pointops_ablation.py -> build/lib.linux-x86_64-cpython-312/pointops2
+  copying functions/test_relative_pos_encoding_op_step2.py -> build/lib.linux-x86_64-cpython-312/pointops2
+  copying functions/__init__.py -> build/lib.linux-x86_64-cpython-312/pointops2
+  copying functions/pointops2.py -> build/lib.linux-x86_64-cpython-312/pointops2
+  copying functions/test_relative_pos_encoding_op_step1.py -> build/lib.linux-x86_64-cpython-312/pointops2
+  copying functions/test_attention_op_step1_v2.py -> build/lib.linux-x86_64-cpython-312/pointops2
+  copying functions/test_attention_op_step1.py -> build/lib.linux-x86_64-cpython-312/pointops2
+  copying functions/test_relative_pos_encoding_op_step1_v3.py -> build/lib.linux-x86_64-cpython-312/pointops2
+  running build_ext
+  building 'pointops2_cuda' extension
+  ninja: warning: premature end of file; recovering
+  [1/10] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output /code/pointops2/build/temp.linux-x86_64-cpython-312/src/knnquery/knnquery_cuda_kernel.o.d -I/usr/local/lib/python3.12/dist-packages/torch/include -I/usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -I/usr/local/cuda/include -I/usr/include/python3.12 -c -c /code/pointops2/src/knnquery/knnquery_cuda_kernel.cu -o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/knnquery/knnquery_cuda_kernel.o -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O2 -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=pointops2_cuda -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 -std=c++17
+  [2/10] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output /code/pointops2/build/temp.linux-x86_64-cpython-312/src/sampling/sampling_cuda_kernel.o.d -I/usr/local/lib/python3.12/dist-packages/torch/include -I/usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -I/usr/local/cuda/include -I/usr/include/python3.12 -c -c /code/pointops2/src/sampling/sampling_cuda_kernel.cu -o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/sampling/sampling_cuda_kernel.o -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O2 -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=pointops2_cuda -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 -std=c++17
+  [3/10] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output /code/pointops2/build/temp.linux-x86_64-cpython-312/src/interpolation/interpolation_cuda_kernel.o.d -I/usr/local/lib/python3.12/dist-packages/torch/include -I/usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -I/usr/local/cuda/include -I/usr/include/python3.12 -c -c /code/pointops2/src/interpolation/interpolation_cuda_kernel.cu -o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/interpolation/interpolation_cuda_kernel.o -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O2 -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=pointops2_cuda -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 -std=c++17
+  [4/10] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output /code/pointops2/build/temp.linux-x86_64-cpython-312/src/grouping/grouping_cuda_kernel.o.d -I/usr/local/lib/python3.12/dist-packages/torch/include -I/usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -I/usr/local/cuda/include -I/usr/include/python3.12 -c -c /code/pointops2/src/grouping/grouping_cuda_kernel.cu -o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/grouping/grouping_cuda_kernel.o -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O2 -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=pointops2_cuda -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 -std=c++17
+  [5/10] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output /code/pointops2/build/temp.linux-x86_64-cpython-312/src/aggregation/aggregation_cuda_kernel.o.d -I/usr/local/lib/python3.12/dist-packages/torch/include -I/usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -I/usr/local/cuda/include -I/usr/include/python3.12 -c -c /code/pointops2/src/aggregation/aggregation_cuda_kernel.cu -o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/aggregation/aggregation_cuda_kernel.o -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O2 -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=pointops2_cuda -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 -std=c++17
+  [6/10] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output /code/pointops2/build/temp.linux-x86_64-cpython-312/src/attention_v2/attention_cuda_kernel_v2.o.d -I/usr/local/lib/python3.12/dist-packages/torch/include -I/usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -I/usr/local/cuda/include -I/usr/include/python3.12 -c -c /code/pointops2/src/attention_v2/attention_cuda_kernel_v2.cu -o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/attention_v2/attention_cuda_kernel_v2.o -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O2 -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=pointops2_cuda -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 -std=c++17
+  [7/10] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output /code/pointops2/build/temp.linux-x86_64-cpython-312/src/rpe_v2/relative_pos_encoding_cuda_kernel_v2.o.d -I/usr/local/lib/python3.12/dist-packages/torch/include -I/usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -I/usr/local/cuda/include -I/usr/include/python3.12 -c -c /code/pointops2/src/rpe_v2/relative_pos_encoding_cuda_kernel_v2.cu -o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/rpe_v2/relative_pos_encoding_cuda_kernel_v2.o -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O2 -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=pointops2_cuda -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 -std=c++17
+  [8/10] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output /code/pointops2/build/temp.linux-x86_64-cpython-312/src/rpe/relative_pos_encoding_cuda_kernel.o.d -I/usr/local/lib/python3.12/dist-packages/torch/include -I/usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -I/usr/local/cuda/include -I/usr/include/python3.12 -c -c /code/pointops2/src/rpe/relative_pos_encoding_cuda_kernel.cu -o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/rpe/relative_pos_encoding_cuda_kernel.o -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O2 -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=pointops2_cuda -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 -std=c++17
+  [9/10] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output /code/pointops2/build/temp.linux-x86_64-cpython-312/src/subtraction/subtraction_cuda_kernel.o.d -I/usr/local/lib/python3.12/dist-packages/torch/include -I/usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -I/usr/local/cuda/include -I/usr/include/python3.12 -c -c /code/pointops2/src/subtraction/subtraction_cuda_kernel.cu -o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/subtraction/subtraction_cuda_kernel.o -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O2 -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=pointops2_cuda -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 -std=c++17
+  [10/10] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output /code/pointops2/build/temp.linux-x86_64-cpython-312/src/attention/attention_cuda_kernel.o.d -I/usr/local/lib/python3.12/dist-packages/torch/include -I/usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -I/usr/local/cuda/include -I/usr/include/python3.12 -c -c /code/pointops2/src/attention/attention_cuda_kernel.cu -o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/attention/attention_cuda_kernel.o -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O2 -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=pointops2_cuda -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 -std=c++17
+  x86_64-linux-gnu-g++ -fno-strict-overflow -Wsign-compare -DNDEBUG -g -O2 -Wall -shared -Wl,-O1 -Wl,-Bsymbolic-functions /code/pointops2/build/temp.linux-x86_64-cpython-312/src/aggregation/aggregation_cuda.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/aggregation/aggregation_cuda_kernel.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/attention/attention_cuda.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/attention/attention_cuda_kernel.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/attention_v2/attention_cuda_kernel_v2.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/attention_v2/attention_cuda_v2.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/grouping/grouping_cuda.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/grouping/grouping_cuda_kernel.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/interpolation/interpolation_cuda.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/interpolation/interpolation_cuda_kernel.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/knnquery/knnquery_cuda.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/knnquery/knnquery_cuda_kernel.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/pointops_api.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/rpe/relative_pos_encoding_cuda.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/rpe/relative_pos_encoding_cuda_kernel.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/rpe_v2/relative_pos_encoding_cuda_kernel_v2.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/rpe_v2/relative_pos_encoding_cuda_v2.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/sampling/sampling_cuda.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/sampling/sampling_cuda_kernel.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/subtraction/subtraction_cuda.o /code/pointops2/build/temp.linux-x86_64-cpython-312/src/subtraction/subtraction_cuda_kernel.o -L/usr/local/lib/python3.12/dist-packages/torch/lib -L/usr/local/cuda/lib64 -L/usr/lib/x86_64-linux-gnu -lc10 -ltorch -ltorch_cpu -ltorch_python -lcudart -lc10_cuda -ltorch_cuda -o build/lib.linux-x86_64-cpython-312/pointops2_cuda.cpython-312-x86_64-linux-gnu.so
+  installing to build/bdist.linux-x86_64/wheel
+  running install
+  running install_lib
+  creating build/bdist.linux-x86_64/wheel
+  copying build/lib.linux-x86_64-cpython-312/pointops2_cuda.cpython-312-x86_64-linux-gnu.so -> build/bdist.linux-x86_64/wheel/.
+  creating build/bdist.linux-x86_64/wheel/pointops2
+  copying build/lib.linux-x86_64-cpython-312/pointops2/pointops.py -> build/bdist.linux-x86_64/wheel/./pointops2
+  copying build/lib.linux-x86_64-cpython-312/pointops2/test_relative_pos_encoding_op_step1_v2.py -> build/bdist.linux-x86_64/wheel/./pointops2
+  copying build/lib.linux-x86_64-cpython-312/pointops2/test_relative_pos_encoding_op_step2_v2.py -> build/bdist.linux-x86_64/wheel/./pointops2
+  copying build/lib.linux-x86_64-cpython-312/pointops2/test_attention_op_step2.py -> build/bdist.linux-x86_64/wheel/./pointops2
+  copying build/lib.linux-x86_64-cpython-312/pointops2/pointops_ablation.py -> build/bdist.linux-x86_64/wheel/./pointops2
+  copying build/lib.linux-x86_64-cpython-312/pointops2/test_relative_pos_encoding_op_step2.py -> build/bdist.linux-x86_64/wheel/./pointops2
+  copying build/lib.linux-x86_64-cpython-312/pointops2/__init__.py -> build/bdist.linux-x86_64/wheel/./pointops2
+  copying build/lib.linux-x86_64-cpython-312/pointops2/pointops2.py -> build/bdist.linux-x86_64/wheel/./pointops2
+  copying build/lib.linux-x86_64-cpython-312/pointops2/test_relative_pos_encoding_op_step1.py -> build/bdist.linux-x86_64/wheel/./pointops2
+  copying build/lib.linux-x86_64-cpython-312/pointops2/test_attention_op_step1_v2.py -> build/bdist.linux-x86_64/wheel/./pointops2
+  copying build/lib.linux-x86_64-cpython-312/pointops2/test_attention_op_step1.py -> build/bdist.linux-x86_64/wheel/./pointops2
+  copying build/lib.linux-x86_64-cpython-312/pointops2/test_relative_pos_encoding_op_step1_v3.py -> build/bdist.linux-x86_64/wheel/./pointops2
+  running install_egg_info
+  running egg_info
+  writing pointops2.egg-info/PKG-INFO
+  writing dependency_links to pointops2.egg-info/dependency_links.txt
+  writing requirements to pointops2.egg-info/requires.txt
+  writing top-level names to pointops2.egg-info/top_level.txt
+  reading manifest file 'pointops2.egg-info/SOURCES.txt'
+  writing manifest file 'pointops2.egg-info/SOURCES.txt'
+  Copying pointops2.egg-info to build/bdist.linux-x86_64/wheel/./pointops2-1.0-py3.12.egg-info
+  running install_scripts
+  creating build/bdist.linux-x86_64/wheel/pointops2-1.0.dist-info/WHEEL
+  creating '/tmp/pip-ephem-wheel-cache-qze6bs_z/wheels/6a/34/d4/9e461e20a0beddeea28759d2a8cb90985e446acbac5067fc11/tmpiitpf33i/.tmp-jt2ngc8p/pointops2-1.0-cp312-cp312-linux_x86_64.whl' and adding 'build/bdist.linux-x86_64/wheel' to it
+  adding 'pointops2_cuda.cpython-312-x86_64-linux-gnu.so'
+  adding 'pointops2/__init__.py'
+  adding 'pointops2/pointops.py'
+  adding 'pointops2/pointops2.py'
+  adding 'pointops2/pointops_ablation.py'
+  adding 'pointops2/test_attention_op_step1.py'
+  adding 'pointops2/test_attention_op_step1_v2.py'
+  adding 'pointops2/test_attention_op_step2.py'
+  adding 'pointops2/test_relative_pos_encoding_op_step1.py'
+  adding 'pointops2/test_relative_pos_encoding_op_step1_v2.py'
+  adding 'pointops2/test_relative_pos_encoding_op_step1_v3.py'
+  adding 'pointops2/test_relative_pos_encoding_op_step2.py'
+  adding 'pointops2/test_relative_pos_encoding_op_step2_v2.py'
+  adding 'pointops2-1.0.dist-info/METADATA'
+  adding 'pointops2-1.0.dist-info/WHEEL'
+  adding 'pointops2-1.0.dist-info/top_level.txt'
+  adding 'pointops2-1.0.dist-info/RECORD'
+  removing build/bdist.linux-x86_64/wheel
+  Building wheel for pointops2 (pyproject.toml): finished with status 'done'
+  Created wheel for pointops2: filename=pointops2-1.0-cp312-cp312-linux_x86_64.whl size=7645277 sha256=643c71204a938ffef0808d7ca32dc819e1efee3a44e0b61bea353db75d747401
+  Stored in directory: /tmp/pip-ephem-wheel-cache-qze6bs_z/wheels/6a/34/d4/9e461e20a0beddeea28759d2a8cb90985e446acbac5067fc11
+Successfully built pointops2
+Installing collected packages: pointops2
+Successfully installed pointops2-1.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.

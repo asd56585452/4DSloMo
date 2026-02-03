@@ -1,0 +1,85 @@
+
+=============
+== PyTorch ==
+=============
+
+NVIDIA Release 25.10 (build 222058774)
+PyTorch Version 2.9.0a0+145a3a7
+Container image Copyright (c) 2025, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+Copyright (c) 2014-2024 Facebook Inc.
+Copyright (c) 2011-2014 Idiap Research Institute (Ronan Collobert)
+Copyright (c) 2012-2014 Deepmind Technologies    (Koray Kavukcuoglu)
+Copyright (c) 2011-2012 NEC Laboratories America (Koray Kavukcuoglu)
+Copyright (c) 2011-2013 NYU                      (Clement Farabet)
+Copyright (c) 2006-2010 NEC Laboratories America (Ronan Collobert, Leon Bottou, Iain Melvin, Jason Weston)
+Copyright (c) 2006      Idiap Research Institute (Samy Bengio)
+Copyright (c) 2001-2004 Idiap Research Institute (Ronan Collobert, Samy Bengio, Johnny Mariethoz)
+Copyright (c) 2015      Google Inc.
+Copyright (c) 2015      Yangqing Jia
+Copyright (c) 2013-2016 The Caffe contributors
+All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+GOVERNING TERMS: The software and materials are governed by the NVIDIA Software License Agreement
+(found at https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-software-license-agreement/)
+and the Product-Specific Terms for NVIDIA AI Products
+(found at https://www.nvidia.com/en-us/agreements/enterprise-software/product-specific-terms-for-ai-products/).
+
+NOTE: The SHMEM allocation limit is set to the default of 64MB.  This may be
+   insufficient for PyTorch.  NVIDIA recommends the use of the following flags:
+   docker run --gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 ...
+
+Using pip 25.3 from /usr/local/lib/python3.12/dist-packages/pip (python 3.12)
+Processing ./simple-knn
+  Preparing metadata (pyproject.toml): started
+  Running command Preparing metadata (pyproject.toml)
+  running dist_info
+  creating /tmp/pip-modern-metadata-4g5iq_kx/simple_knn.egg-info
+  writing /tmp/pip-modern-metadata-4g5iq_kx/simple_knn.egg-info/PKG-INFO
+  writing dependency_links to /tmp/pip-modern-metadata-4g5iq_kx/simple_knn.egg-info/dependency_links.txt
+  writing top-level names to /tmp/pip-modern-metadata-4g5iq_kx/simple_knn.egg-info/top_level.txt
+  writing manifest file '/tmp/pip-modern-metadata-4g5iq_kx/simple_knn.egg-info/SOURCES.txt'
+  reading manifest file '/tmp/pip-modern-metadata-4g5iq_kx/simple_knn.egg-info/SOURCES.txt'
+  writing manifest file '/tmp/pip-modern-metadata-4g5iq_kx/simple_knn.egg-info/SOURCES.txt'
+  creating '/tmp/pip-modern-metadata-4g5iq_kx/simple_knn-0.0.0.dist-info'
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: simple_knn
+  Building wheel for simple_knn (pyproject.toml): started
+  Running command Building wheel for simple_knn (pyproject.toml)
+  running bdist_wheel
+  running build
+  running build_ext
+  building 'simple_knn._C' extension
+  [1/1] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output /code/simple-knn/build/temp.linux-x86_64-cpython-312/spatial.o.d -I/usr/local/lib/python3.12/dist-packages/torch/include -I/usr/local/lib/python3.12/dist-packages/torch/include/torch/csrc/api/include -I/usr/local/cuda/include -I/usr/include/python3.12 -c -c /code/simple-knn/spatial.cu -o /code/simple-knn/build/temp.linux-x86_64-cpython-312/spatial.o -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=_C -gencode=arch=compute_100,code=sm_100 -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_90,code=sm_90 -std=c++17
+  x86_64-linux-gnu-g++ -fno-strict-overflow -Wsign-compare -DNDEBUG -g -O2 -Wall -shared -Wl,-O1 -Wl,-Bsymbolic-functions /code/simple-knn/build/temp.linux-x86_64-cpython-312/ext.o /code/simple-knn/build/temp.linux-x86_64-cpython-312/simple_knn.o /code/simple-knn/build/temp.linux-x86_64-cpython-312/spatial.o -L/usr/local/lib/python3.12/dist-packages/torch/lib -L/usr/local/cuda/lib64 -L/usr/lib/x86_64-linux-gnu -lc10 -ltorch -ltorch_cpu -ltorch_python -lcudart -lc10_cuda -ltorch_cuda -o build/lib.linux-x86_64-cpython-312/simple_knn/_C.cpython-312-x86_64-linux-gnu.so
+  installing to build/bdist.linux-x86_64/wheel
+  running install
+  running install_lib
+  creating build/bdist.linux-x86_64/wheel
+  creating build/bdist.linux-x86_64/wheel/simple_knn
+  copying build/lib.linux-x86_64-cpython-312/simple_knn/_C.cpython-312-x86_64-linux-gnu.so -> build/bdist.linux-x86_64/wheel/./simple_knn
+  running install_egg_info
+  running egg_info
+  writing simple_knn.egg-info/PKG-INFO
+  writing dependency_links to simple_knn.egg-info/dependency_links.txt
+  writing top-level names to simple_knn.egg-info/top_level.txt
+  reading manifest file 'simple_knn.egg-info/SOURCES.txt'
+  writing manifest file 'simple_knn.egg-info/SOURCES.txt'
+  Copying simple_knn.egg-info to build/bdist.linux-x86_64/wheel/./simple_knn-0.0.0-py3.12.egg-info
+  running install_scripts
+  creating build/bdist.linux-x86_64/wheel/simple_knn-0.0.0.dist-info/WHEEL
+  creating '/root/.cache/pip/wheels/f5/37/ed/0e3baa5cd2c14174d3bccc6a3a5ac1ad5d22aa923ade9d6477/tmpyxlhsbxb/.tmp-d7ow21od/simple_knn-0.0.0-cp312-cp312-linux_x86_64.whl' and adding 'build/bdist.linux-x86_64/wheel' to it
+  adding 'simple_knn/_C.cpython-312-x86_64-linux-gnu.so'
+  adding 'simple_knn-0.0.0.dist-info/METADATA'
+  adding 'simple_knn-0.0.0.dist-info/WHEEL'
+  adding 'simple_knn-0.0.0.dist-info/top_level.txt'
+  adding 'simple_knn-0.0.0.dist-info/RECORD'
+  removing build/bdist.linux-x86_64/wheel
+  Building wheel for simple_knn (pyproject.toml): finished with status 'done'
+  Created wheel for simple_knn: filename=simple_knn-0.0.0-cp312-cp312-linux_x86_64.whl size=3532433 sha256=af457bcbabf8ba38c6f8a35ca4bb2ea078ccfb0ca905baa1711fc4d8825395ad
+  Stored in directory: /root/.cache/pip/wheels/f5/37/ed/0e3baa5cd2c14174d3bccc6a3a5ac1ad5d22aa923ade9d6477
+Successfully built simple_knn
+Installing collected packages: simple_knn
+Successfully installed simple_knn-0.0.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
