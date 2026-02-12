@@ -1,3 +1,12 @@
+checkpoints/
+datasets/
+output/
+.git/
+__pycache/
+*.mp4
+*.pth
+*.ckpt
+*.safetensors
 *.pyc
 data
 output
@@ -22,7 +31,3 @@ eggs/
 *.egg
 *.sh
 /checkpoints
-/datasets
-/datasets_pc
-/output_pc
-4DSloMo.sif
