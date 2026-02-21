@@ -20,7 +20,6 @@ dist/
 eggs/
 .eggs/
 *.egg
-*.sh
 /checkpoints
 /datasets
 /datasets_pc
