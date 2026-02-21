@@ -10,7 +10,7 @@ exhaust_test: False
 ModelParams:
   sh_degree: 3
   images: "images"
-  resolution: 4
+  resolution: 1
   white_background: True
   data_device: "cuda"
   eval: True

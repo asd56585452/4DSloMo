@@ -41,27 +41,28 @@ def render_set(model_path, name, iteration, views, gaussians, pipeline, backgrou
         gt = view[0][0:3, :, :]
         gt_numpy = gt.permute(1, 2, 0).cpu().numpy()
         
-        rendering = rendering_torch.permute(1, 2, 0).cpu().numpy()
-        frames.append(rendering)
-        gts.append(gt_numpy)
+        if not args.skip_video:
+            rendering = rendering_torch.permute(1, 2, 0).cpu().numpy()
+            frames.append(rendering)
+            gts.append(gt_numpy)
 
         image_name = view[1].image_path.split('/')[-1].split('.')[0]
 
 
         # pdb.set_trace()
         # rendering.save(os.path.join(render_path, '{0:05d}'.format(idx) + ".png"))
-        torchvision.utils.save_image(rendering_torch, os.path.join(render_path, image_name + f"_{idx:03d}" + ".png"))
+        torchvision.utils.save_image(rendering_torch, os.path.join(render_path, image_name + f"_{idx:05d}" + ".png"))
         torchvision.utils.save_image(gt, os.path.join(gts_path, image_name + ".png"))
     
-    imageio.mimsave(render_path+'video.mp4', [frame for frame in frames], fps=25)
-    imageio.mimsave(render_path+'-gt.mp4', [frame for frame in gts], fps=25)
-
-    print(render_path+'video.mp4')
+    if not args.skip_video:
+        imageio.mimsave(render_path+'video.mp4', [frame for frame in frames], fps=25)
+        imageio.mimsave(render_path+'-gt.mp4', [frame for frame in gts], fps=25)
+        print(render_path+'video.mp4')
 
 def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParams, skip_train : bool, skip_test : bool):
     with torch.no_grad():
         gaussians = GaussianModel(dataset.sh_degree, gaussian_dim=4, rot_4d=True)
-        scene = Scene(dataset, gaussians, shuffle=False)
+        scene = Scene(dataset, gaussians, time_duration=args.time_duration, shuffle=False)
 
         bg_color = [1,1,1] if dataset.white_background else [0, 0, 0]
         bg_color = [1,1,1] 
@@ -82,7 +83,10 @@ if __name__ == "__main__":
     parser.add_argument("--iteration", default=-1, type=int)
     parser.add_argument("--skip_train", action="store_true")
     parser.add_argument("--skip_test", action="store_true")
+
     parser.add_argument("--quiet", action="store_true")
+    parser.add_argument("--time_duration", nargs=2, type=float, default=[-0.5, 1.5])
+    parser.add_argument("--skip_video", action="store_true")
     args = get_combined_args(parser)
     print("Rendering " + args.model_path)
 
