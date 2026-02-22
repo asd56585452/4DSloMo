@@ -15,7 +15,7 @@
 # ================= 設定區塊 (請修改這裡) =================
 # 1. 您的 SIF 映像檔位置
 SIF_IMAGE="/work/$(whoami)/4DSloMo.sif"
-WORK_DIR="/work/u9859221/4DSloMo"
+WORK_DIR="/home/u9859221/4DSloMo"
 
 # ========================================================
 
@@ -40,8 +40,9 @@ singularity exec --nv -B /work --pwd "$WORK_DIR" /work/$(whoami)/4DSloMo.sif \
         && cat ./datasets/HiFi4G_Dataset/4K_Actor1_Greeting/4K_Actor1_Greeting.zip.part* > ./datasets/4K_Actor1_Greeting.zip \
         && unzip -o ./datasets/4K_Actor1_Greeting.zip -d ./datasets/4K_Actor1_Greeting \
         && rm ./datasets/4K_Actor1_Greeting.zip \
+        && rm ./datasets/HiFi4G_Dataset/4K_Actor1_Greeting/4K_Actor1_Greeting.zip.part* \
         && cd preprocess \
-        && python hifi4g_process.py --input ../datasets/4K_Actor1_Greeting --output ../datasets/4K_Actor1_Greeting_preprocess --move\
+        && python hifi4g_process.py --input ../datasets/4K_Actor1_Greeting --output ../datasets/4K_Actor1_Greeting_preprocess --move true \
         && cd .. \
         && python convert_colmap_to_ply.py ./datasets/4K_Actor1_Greeting/image_white_undistortion/colmap/sparse/0 ./datasets/4K_Actor1_Greeting_preprocess/points3d.ply --expand_frames 200
         '
