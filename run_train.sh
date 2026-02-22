@@ -16,7 +16,7 @@
 # 1. 您的 SIF 映像檔位置
 SIF_IMAGE="/work/$(whoami)/4DSloMo.sif"
 WORK_DIR="/work/u9859221/4DSloMo"
-
+MY_TMPDIR="/tmp/$(whoami)_$SLURM_JOB_ID"
 # ========================================================
 
 echo "Job ID: $SLURM_JOB_ID"
@@ -35,14 +35,14 @@ cd /work/u9859221/4DSloMo
 
 singularity exec --nv -B /work --pwd "$WORK_DIR" /work/$(whoami)/4DSloMo.sif \
     /bin/bash -c "
-        python train.py --config ./configs/default.yaml --model_path $SLURM_TMPDIR/output/dance_demo10 --source_path $SLURM_TMPDIR/datasets/dance_demo10 && \
-        python render.py --model_path $SLURM_TMPDIR/output/dance_demo10/ --loaded_pth=$SLURM_TMPDIR/output/dance_demo10/chkpnt7000.pth && \
-        python process_video.py --input_folder '$SLURM_TMPDIR/output/dance_demo10/test/ours_None/' --max_frames 33 && \
-        CUDA_VISIBLE_DEVICES=0 torchrun --nproc_per_node=1 test_lora.py --input_folder $SLURM_TMPDIR/output/dance_demo10 --output_folder $SLURM_TMPDIR/datasets/dance_demo10_wan/ --model_path ./checkpoints/4DSloMo_LoRA.ckpt --num_inference_steps 5 && \
-        cp $SLURM_TMPDIR/datasets/dance_demo10/transforms_test_demo.json $SLURM_TMPDIR/datasets/dance_demo10_wan/transforms_test.json && \
-        cp $SLURM_TMPDIR/datasets/dance_demo10/transforms_train_stage2.json $SLURM_TMPDIR/datasets/dance_demo10_wan/transforms_train.json && \
-        cp $SLURM_TMPDIR/datasets/dance_demo10/points3d.ply $SLURM_TMPDIR/datasets/dance_demo10_wan && \
-        python train.py --config ./configs/default.yaml --model_path $SLURM_TMPDIR/output/dance_demo10_wan --source_path $SLURM_TMPDIR/datasets/dance_demo10_wan
+        python train.py --config ./configs/default.yaml --model_path $MY_TMPDIR/output/dance_demo10 --source_path $MY_TMPDIR/datasets/dance_demo10 && \
+        python render.py --model_path $MY_TMPDIR/output/dance_demo10/ --loaded_pth=$MY_TMPDIR/output/dance_demo10/chkpnt7000.pth && \
+        python process_video.py --input_folder '$MY_TMPDIR/output/dance_demo10/test/ours_None/' --max_frames 33 && \
+        CUDA_VISIBLE_DEVICES=0 torchrun --nproc_per_node=1 test_lora.py --input_folder $MY_TMPDIR/output/dance_demo10 --output_folder $MY_TMPDIR/datasets/dance_demo10_wan/ --model_path ./checkpoints/4DSloMo_LoRA.ckpt --num_inference_steps 5 && \
+        cp $MY_TMPDIR/datasets/dance_demo10/transforms_test_demo.json $MY_TMPDIR/datasets/dance_demo10_wan/transforms_test.json && \
+        cp $MY_TMPDIR/datasets/dance_demo10/transforms_train_stage2.json $MY_TMPDIR/datasets/dance_demo10_wan/transforms_train.json && \
+        cp $MY_TMPDIR/datasets/dance_demo10/points3d.ply $MY_TMPDIR/datasets/dance_demo10_wan && \
+        python train.py --config ./configs/default.yaml --model_path $MY_TMPDIR/output/dance_demo10_wan --source_path $MY_TMPDIR/datasets/dance_demo10_wan
     "
 
 echo "End time: $(date)"

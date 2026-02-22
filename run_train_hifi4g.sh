@@ -16,13 +16,13 @@
 # 1. 您的 SIF 映像檔位置
 SIF_IMAGE="/work/$(whoami)/4DSloMo.sif"
 WORK_DIR="/home/u9859221/4DSloMo"
-
+MY_TMPDIR="/tmp/$(whoami)_$SLURM_JOB_ID"
 # ========================================================
 
 echo "Job ID: $SLURM_JOB_ID"
 echo "Node: $SLURMD_NODENAME"
 echo "Start time: $(date)"
-echo "使用的本機暫存目錄: $SLURM_TMPDIR"
+echo "使用的本機暫存目錄: $MY_TMPDIR"
 
 # 載入 Singularity 模組 (有些節點需要，加了保險)
 module load singularity
@@ -34,32 +34,32 @@ module load singularity
 # python ... : 執行當前目錄下的 train.py
 cd $WORK_DIR
 
-mkdir -p $SLURM_TMPDIR/datasets
-mkdir -p $SLURM_TMPDIR/output
+mkdir -p $MY_TMPDIR/datasets
+mkdir -p $MY_TMPDIR/output
 
 #data
-singularity exec --nv -B /work --pwd "$WORK_DIR" /work/$(whoami)/4DSloMo.sif \
+singularity exec --nv -B /work -B $MY_TMPDIR --pwd "$WORK_DIR" /work/$(whoami)/4DSloMo.sif \
     /bin/bash -c "
-        hf download moqiyinlun1/HiFiHuman --repo-type dataset --local-dir $SLURM_TMPDIR/datasets --include 'HiFi4G_Dataset/4K_Actor1_Greeting/*'\
-        && cat $SLURM_TMPDIR/datasets/HiFi4G_Dataset/4K_Actor1_Greeting/4K_Actor1_Greeting.zip.part* > $SLURM_TMPDIR/datasets/4K_Actor1_Greeting.zip \
-        && unzip -o $SLURM_TMPDIR/datasets/4K_Actor1_Greeting.zip -d $SLURM_TMPDIR/datasets/4K_Actor1_Greeting \
-        && rm $SLURM_TMPDIR/datasets/4K_Actor1_Greeting.zip \
-        && rm $SLURM_TMPDIR/datasets/HiFi4G_Dataset/4K_Actor1_Greeting/4K_Actor1_Greeting.zip.part* \
+        hf download moqiyinlun1/HiFiHuman --repo-type dataset --local-dir $MY_TMPDIR/datasets --include 'HiFi4G_Dataset/4K_Actor1_Greeting/*'\
+        && cat $MY_TMPDIR/datasets/HiFi4G_Dataset/4K_Actor1_Greeting/4K_Actor1_Greeting.zip.part* > $MY_TMPDIR/datasets/4K_Actor1_Greeting.zip \
+        && unzip -o $MY_TMPDIR/datasets/4K_Actor1_Greeting.zip -d $MY_TMPDIR/datasets/4K_Actor1_Greeting \
+        && rm $MY_TMPDIR/datasets/4K_Actor1_Greeting.zip \
+        && rm $MY_TMPDIR/datasets/HiFi4G_Dataset/4K_Actor1_Greeting/4K_Actor1_Greeting.zip.part* \
         && cd preprocess \
-        && python hifi4g_process.py --input .$SLURM_TMPDIR/datasets/4K_Actor1_Greeting --output .$SLURM_TMPDIR/datasets/4K_Actor1_Greeting_preprocess --move true \
+        && python hifi4g_process.py --input .$MY_TMPDIR/datasets/4K_Actor1_Greeting --output .$MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess --move true \
         && cd .. \
-        && python convert_colmap_to_ply.py $SLURM_TMPDIR/datasets/4K_Actor1_Greeting/image_white_undistortion/colmap/sparse/0 $SLURM_TMPDIR/datasets/4K_Actor1_Greeting_preprocess/points3d.ply --expand_frames 200
+        && python convert_colmap_to_ply.py $MY_TMPDIR/datasets/4K_Actor1_Greeting/image_white_undistortion/colmap/sparse/0 $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess/points3d.ply --expand_frames 200
         "
 
-singularity exec --nv -B /work --pwd "$WORK_DIR" /work/$(whoami)/4DSloMo.sif \
+singularity exec --nv -B /work -B $MY_TMPDIR --pwd "$WORK_DIR" /work/$(whoami)/4DSloMo.sif \
     /bin/bash -c "
         ulimit -n 65535 && \
-        python train.py --config ./configs/default.yaml --model_path $SLURM_TMPDIR/output/4K_Actor1_Greeting_preprocess --source_path $SLURM_TMPDIR/datasets/4K_Actor1_Greeting_preprocess && \
-        python render.py --model_path $SLURM_TMPDIR/output/4K_Actor1_Greeting_preprocess/ --loaded_pth=$SLURM_TMPDIR/output/4K_Actor1_Greeting_preprocess/chkpnt30000.pth --skip_video --time_duration -0.5 1.5 && \
-        python process_video.py --input_folder $SLURM_TMPDIR/output/4K_Actor1_Greeting_preprocess/test/ours_None/ --max_frames 200 && \
-        CUDA_VISIBLE_DEVICES=0  torchrun --nproc_per_node=1 test_lora.py --input_folder $SLURM_TMPDIR/output/4K_Actor1_Greeting_preprocess --output_folder $SLURM_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan/ --model_path ./checkpoints/4DSloMo_LoRA.ckpt --num_inference_steps 5 --sliding_window_frame 33 --height 1024 --width 1024 && \
-        cp $SLURM_TMPDIR/datasets/4K_Actor1_Greeting_preprocess/transforms_valid.json $SLURM_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan/transforms_test.json && cp $SLURM_TMPDIR/datasets/4K_Actor1_Greeting_preprocess/transforms_train_stage2.json $SLURM_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan/transforms_train.json && cp $SLURM_TMPDIR/datasets/4K_Actor1_Greeting_preprocess/points3d.ply $SLURM_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan && \
-        python train.py --config ./configs/default_stage2.yaml --model_path $SLURM_TMPDIR/output/4K_Actor1_Greeting_preprocess_wan --source_path $SLURM_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan
+        python train.py --config ./configs/default.yaml --model_path ./output/4K_Actor1_Greeting_preprocess --source_path $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess && \
+        python render.py --model_path ./output/4K_Actor1_Greeting_preprocess/ --loaded_pth=./output/4K_Actor1_Greeting_preprocess/chkpnt30000.pth --skip_video --time_duration -0.5 1.5 && \
+        python process_video.py --input_folder ./output/4K_Actor1_Greeting_preprocess/test/ours_None/ --max_frames 200 && \
+        CUDA_VISIBLE_DEVICES=0  torchrun --nproc_per_node=1 test_lora.py --input_folder ./output/4K_Actor1_Greeting_preprocess --output_folder $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan/ --model_path ./checkpoints/4DSloMo_LoRA.ckpt --num_inference_steps 5 --sliding_window_frame 33 --height 1024 --width 1024 && \
+        cp $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess/transforms_valid.json $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan/transforms_test.json && cp $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess/transforms_train_stage2.json $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan/transforms_train.json && cp $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess/points3d.ply $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan && \
+        python train.py --config ./configs/default_stage2.yaml --model_path ./output/4K_Actor1_Greeting_preprocess_wan --source_path $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan
     "
-
+rm -rf $MY_TMPDIR
 echo "End time: $(date)"
