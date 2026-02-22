@@ -35,14 +35,14 @@ cd /work/u9859221/4DSloMo
 
 singularity exec --nv -B /work --pwd "$WORK_DIR" /work/$(whoami)/4DSloMo.sif \
     /bin/bash -c "
-        python train.py --config ./configs/default.yaml --model_path ./output/dance_demo10 --source_path ./datasets/dance_demo10 && \
-        python render.py --model_path ./output/dance_demo10/ --loaded_pth=./output/dance_demo10/chkpnt7000.pth && \
-        python process_video.py --input_folder './output/dance_demo10/test/ours_None/' --max_frames 33 && \
-        CUDA_VISIBLE_DEVICES=0 torchrun --nproc_per_node=1 test_lora.py --input_folder ./output/dance_demo10 --output_folder ./datasets/dance_demo10_wan/ --model_path ./checkpoints/4DSloMo_LoRA.ckpt --num_inference_steps 5 && \
-        cp ./datasets/dance_demo10/transforms_test_demo.json ./datasets/dance_demo10_wan/transforms_test.json && \
-        cp ./datasets/dance_demo10/transforms_train_stage2.json ./datasets/dance_demo10_wan/transforms_train.json && \
-        cp ./datasets/dance_demo10/points3d.ply ./datasets/dance_demo10_wan && \
-        python train.py --config ./configs/default.yaml --model_path ./output/dance_demo10_wan --source_path ./datasets/dance_demo10_wan
+        python train.py --config ./configs/default.yaml --model_path $SLURM_TMPDIR/output/dance_demo10 --source_path $SLURM_TMPDIR/datasets/dance_demo10 && \
+        python render.py --model_path $SLURM_TMPDIR/output/dance_demo10/ --loaded_pth=$SLURM_TMPDIR/output/dance_demo10/chkpnt7000.pth && \
+        python process_video.py --input_folder '$SLURM_TMPDIR/output/dance_demo10/test/ours_None/' --max_frames 33 && \
+        CUDA_VISIBLE_DEVICES=0 torchrun --nproc_per_node=1 test_lora.py --input_folder $SLURM_TMPDIR/output/dance_demo10 --output_folder $SLURM_TMPDIR/datasets/dance_demo10_wan/ --model_path ./checkpoints/4DSloMo_LoRA.ckpt --num_inference_steps 5 && \
+        cp $SLURM_TMPDIR/datasets/dance_demo10/transforms_test_demo.json $SLURM_TMPDIR/datasets/dance_demo10_wan/transforms_test.json && \
+        cp $SLURM_TMPDIR/datasets/dance_demo10/transforms_train_stage2.json $SLURM_TMPDIR/datasets/dance_demo10_wan/transforms_train.json && \
+        cp $SLURM_TMPDIR/datasets/dance_demo10/points3d.ply $SLURM_TMPDIR/datasets/dance_demo10_wan && \
+        python train.py --config ./configs/default.yaml --model_path $SLURM_TMPDIR/output/dance_demo10_wan --source_path $SLURM_TMPDIR/datasets/dance_demo10_wan
     "
 
 echo "End time: $(date)"
