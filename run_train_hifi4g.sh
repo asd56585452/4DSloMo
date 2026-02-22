@@ -2,9 +2,9 @@
 #SBATCH --job-name=4DSloMo_Train    # 作業名稱
 #SBATCH -p normal2            # 使用 gp1d 分割區 (1張 GPU)
 #SBATCH --nodes=1                   # 使用 1 個節點
-#SBATCH --cpus-per-task=20
-#SBATCH –gres=gpu:1           # 使用 1 張 GPU
-#SBATCH --mem=60G                   # 記憶體 (4DSloMo 吃記憶體，給大一點)
+#SBATCH --cpus-per-task=12
+#SBATCH --gpus-per-node=1           # 使用 1 張 GPU
+#SBATCH --mem=128G                   # 記憶體 (4DSloMo 吃記憶體，給大一點)
 #SBATCH --time=24:00:00            # 執行時間上限 (24小時)
 #SBATCH --output=log_%j.out         # 標準輸出 Log (包含 print 的內容)
 #SBATCH --error=err_%j.err          # 錯誤訊息 Log
