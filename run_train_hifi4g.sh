@@ -31,7 +31,7 @@ module load singularity
 # --nv       : 啟用 NVIDIA GPU 支援 (沒加會找不到 CUDA)
 # -B /work   : 將 /work 掛載進去 (讓程式能讀寫您的 Code 和 Data)
 # python ... : 執行當前目錄下的 train.py
-cd /work/u9859221/4DSloMo
+cd /home/u9859221/4DSloMo
 
 #data
 singularity exec --nv -B /work --pwd "$WORK_DIR" /work/$(whoami)/4DSloMo.sif \
@@ -39,10 +39,11 @@ singularity exec --nv -B /work --pwd "$WORK_DIR" /work/$(whoami)/4DSloMo.sif \
         hf download moqiyinlun1/HiFiHuman --repo-type dataset --local-dir ./datasets --include "HiFi4G_Dataset/4K_Actor1_Greeting/*"\
         && cat ./datasets/HiFi4G_Dataset/4K_Actor1_Greeting/4K_Actor1_Greeting.zip.part* > ./datasets/4K_Actor1_Greeting.zip \
         && unzip -o ./datasets/4K_Actor1_Greeting.zip -d ./datasets/4K_Actor1_Greeting \
+        && rm ./datasets/4K_Actor1_Greeting.zip \
         && cd preprocess \
-        && python hifi4g_process.py --input ../datasets/4K_Actor1_Greeting --output ../datasets/4K_Actor1_Greeting_preprocess \
+        && python hifi4g_process.py --input ../datasets/4K_Actor1_Greeting --output ../datasets/4K_Actor1_Greeting_preprocess --move\
         && cd .. \
-        && python convert_colmap_to_ply.py ./datasets/4K_Actor1_Greeting/image_white_undistortion/colmap/sparse/0 ./datasets/4K_Actor1_Greeting_preprocess/points3d.ply
+        && python convert_colmap_to_ply.py ./datasets/4K_Actor1_Greeting/image_white_undistortion/colmap/sparse/0 ./datasets/4K_Actor1_Greeting_preprocess/points3d.ply --expand_frames 200
         '
 
 singularity exec --nv -B /work --pwd "$WORK_DIR" /work/$(whoami)/4DSloMo.sif \
