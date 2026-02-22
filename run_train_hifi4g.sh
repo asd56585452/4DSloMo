@@ -46,14 +46,10 @@ singularity exec --nv -B /work -B $MY_TMPDIR --pwd "$WORK_DIR" /work/$(whoami)/4
         && rm $MY_TMPDIR/datasets/4K_Actor1_Greeting.zip \
         && rm $MY_TMPDIR/datasets/HiFi4G_Dataset/4K_Actor1_Greeting/4K_Actor1_Greeting.zip.part* \
         && cd preprocess \
-        && python hifi4g_process.py --input .$MY_TMPDIR/datasets/4K_Actor1_Greeting --output .$MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess --move true \
+        && python hifi4g_process.py --input $MY_TMPDIR/datasets/4K_Actor1_Greeting --output $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess --move true \
         && cd .. \
-        && python convert_colmap_to_ply.py $MY_TMPDIR/datasets/4K_Actor1_Greeting/image_white_undistortion/colmap/sparse/0 $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess/points3d.ply --expand_frames 200
-        "
-
-singularity exec --nv -B /work -B $MY_TMPDIR --pwd "$WORK_DIR" /work/$(whoami)/4DSloMo.sif \
-    /bin/bash -c "
-        ulimit -n 65535 && \
+        && python convert_colmap_to_ply.py $MY_TMPDIR/datasets/4K_Actor1_Greeting/image_white_undistortion/colmap/sparse/0 $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess/points3d.ply --expand_frames 200 \
+        && ulimit -n 65535 && \
         python train.py --config ./configs/default.yaml --model_path ./output/4K_Actor1_Greeting_preprocess --source_path $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess && \
         python render.py --model_path ./output/4K_Actor1_Greeting_preprocess/ --loaded_pth=./output/4K_Actor1_Greeting_preprocess/chkpnt30000.pth --skip_video --time_duration -0.5 1.5 && \
         python process_video.py --input_folder ./output/4K_Actor1_Greeting_preprocess/test/ours_None/ --max_frames 200 && \
