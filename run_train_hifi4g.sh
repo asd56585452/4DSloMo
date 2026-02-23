@@ -57,10 +57,10 @@ singularity exec --nv -B /work -B $MY_TMPDIR --pwd "$WORK_DIR" /work/$(whoami)/4
         && cd .. \
         && python convert_colmap_to_ply.py $MY_TMPDIR/datasets/4K_Actor1_Greeting/image_white_undistortion/colmap/sparse/0 $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess/points3d.ply --expand_frames 200 \
         && ulimit -n 65535 && \
-        python train.py --config ./configs/default.yaml --model_path ./output/4K_Actor1_Greeting_preprocess --source_path $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess && \
-        python render.py --model_path ./output/4K_Actor1_Greeting_preprocess/ --loaded_pth=./output/4K_Actor1_Greeting_preprocess/chkpnt7000.pth --skip_video --time_duration -0.5 1.5 && \
-        python process_video.py --input_folder ./output/4K_Actor1_Greeting_preprocess/test/ours_None/ --max_frames 200 && \
-        CUDA_VISIBLE_DEVICES=0  torchrun --nproc_per_node=1 test_lora.py --input_folder ./output/4K_Actor1_Greeting_preprocess --output_folder $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan/ --model_path ./checkpoints/4DSloMo_LoRA.ckpt --num_inference_steps 5 --sliding_window_frame 33 --height 1024 --width 1024 && \
+        python train.py --config ./configs/default.yaml --model_path $MY_TMPDIR/output/4K_Actor1_Greeting_preprocess --source_path $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess && \
+        python render.py --model_path $MY_TMPDIR/output/4K_Actor1_Greeting_preprocess/ --loaded_pth=$MY_TMPDIR/output/4K_Actor1_Greeting_preprocess/chkpnt7000.pth --skip_video --time_duration -0.5 1.5 && \
+        python process_video.py --input_folder $MY_TMPDIR/output/4K_Actor1_Greeting_preprocess/test/ours_None/ --max_frames 200 && \
+        CUDA_VISIBLE_DEVICES=0  torchrun --nproc_per_node=1 test_lora.py --input_folder $MY_TMPDIR/output/4K_Actor1_Greeting_preprocess --output_folder $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan/ --model_path ./checkpoints/4DSloMo_LoRA.ckpt --num_inference_steps 5 --sliding_window_frame 33 --height 1024 --width 1024 && \
         cp $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess/transforms_valid.json $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan/transforms_test.json && cp $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess/transforms_train_stage2.json $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan/transforms_train.json && cp $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess/points3d.ply $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan && \
         python train.py --config ./configs/default_stage2.yaml --model_path ./output/4K_Actor1_Greeting_preprocess_wan --source_path $MY_TMPDIR/datasets/4K_Actor1_Greeting_preprocess_wan
     "
