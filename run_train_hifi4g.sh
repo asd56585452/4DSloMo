@@ -5,7 +5,7 @@
 #SBATCH --cpus-per-task=12
 #SBATCH --gpus-per-node=1           # 使用 1 張 GPU
 #SBATCH --mem=128G                   # 記憶體 (4DSloMo 吃記憶體，給大一點)
-#SBATCH --time=24:00:00            # 執行時間上限 (24小時)
+#SBATCH --time=2:00:00            # 執行時間上限 (24小時)
 #SBATCH --output=log_%j.out         # 標準輸出 Log (包含 print 的內容)
 #SBATCH --error=err_%j.err          # 錯誤訊息 Log
 #SBATCH --mail-type=END,BEGIN,FAIL
