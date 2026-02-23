@@ -16,7 +16,7 @@
 # 1. 您的 SIF 映像檔位置
 SIF_IMAGE="/work/$(whoami)/4DSloMo.sif"
 WORK_DIR="/home/u9859221/4DSloMo"
-MY_TMPDIR="/tmp/$(whoami)_$SLURM_JOB_ID"
+MY_TMPDIR="/dev/shm/$(whoami)_$SLURM_JOB_ID"
 # ========================================================
 
 echo "Job ID: $SLURM_JOB_ID"
