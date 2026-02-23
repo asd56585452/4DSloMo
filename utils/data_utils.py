@@ -1,11 +1,21 @@
 import os
 import torch
 from torchvision.utils import save_image
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, DataLoader
 from torchvision import datasets
 from utils.general_utils import PILtoTorch
 from PIL import Image
 import numpy as np
+
+
+def camera_collate_fn(batch):
+    """Custom collate: stack GT images normally, keep camera objects as a plain list.
+    This is necessary because Camera objects may contain CUDA tensors that
+    cannot be stacked / pickled by the default collate.
+    """
+    images, cameras = zip(*batch)
+    images = torch.stack(images, dim=0)   # (B, C, H, W)
+    return images, list(cameras)
 
 class CameraDataset(Dataset):
     

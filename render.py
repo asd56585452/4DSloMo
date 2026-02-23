@@ -9,7 +9,7 @@
 # For inquiries contact  george.drettakis@inria.fr
 # TORCH_CUDA_ARCH_LIST="6.0 7.0 7.5 8.0 8.6+PTX" pip install ./diff-gaussian-rasterization
 # TORCH_CUDA_ARCH_LIST="6.0 7.0 7.5 8.0 8.6+PTX" pip install ./simple-knn/
-
+import time
 import torch
 from scene import Scene
 import os
@@ -21,6 +21,8 @@ from utils.general_utils import safe_state
 from argparse import ArgumentParser
 from arguments import ModelParams, PipelineParams, get_combined_args
 from gaussian_renderer import GaussianModel
+from torch.utils.data import DataLoader
+from utils.data_utils import camera_collate_fn
 # from rembg import remove
 import numpy as np
 from PIL import Image
@@ -29,31 +31,49 @@ import imageio
 
 import os
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:128"
-def render_set(model_path, name, iteration, views, gaussians, pipeline, background):
+def render_set(model_path, name, iteration, loader, gaussians, pipeline, background):
     render_path = os.path.join(model_path, name, "ours_{}".format(iteration), "renders")
     gts_path = os.path.join(model_path, name, "ours_{}".format(iteration), "gt")
     makedirs(render_path, exist_ok=True)
     makedirs(gts_path, exist_ok=True)
     frames = []
     gts = []
-    for idx, view in enumerate(tqdm(views, desc="Rendering progress")):
-        rendering_torch = render(view[1].cuda(), gaussians, pipeline, background)["render"]
-        gt = view[0][0:3, :, :]
-        gt_numpy = gt.permute(1, 2, 0).cpu().numpy()
-        
-        if not args.skip_video:
-            rendering = rendering_torch.permute(1, 2, 0).cpu().numpy()
-            frames.append(rendering)
-            gts.append(gt_numpy)
+    global_idx = 0
+    t4 = time.time()
+    for gt_images, view_cams in tqdm(loader, desc="Rendering progress"):
+        # gt_images: (B, C, H, W) CPU tensor from DataLoader workers
+        # view_cams: list of Camera objects (length B)
+        for b in range(len(view_cams)):
+            idx = global_idx
+            view_cam = view_cams[b]
+            torch.cuda.synchronize()  # 確保之前的操作都完成
+            t0 = time.time()
 
-        image_name = view[1].image_path.split('/')[-1].split('.')[0]
+            # 1. 測量 GPU 渲染時間
+            rendering_torch = render(view_cam.cuda(), gaussians, pipeline, background)["render"]
+            torch.cuda.synchronize()  # 等待渲染完成
+            t1 = time.time()
 
+            # 2. 測量 CPU 記憶體轉換時間
+            gt = gt_images[b][0:3, :, :]
+            gt_numpy = gt.permute(1, 2, 0).cpu().numpy()
+            if not args.skip_video:
+                rendering = rendering_torch.permute(1, 2, 0).cpu().numpy()
+                frames.append(rendering)
+                gts.append(gt_numpy)
+            t2 = time.time()
 
-        # pdb.set_trace()
-        # rendering.save(os.path.join(render_path, '{0:05d}'.format(idx) + ".png"))
-        torchvision.utils.save_image(rendering_torch, os.path.join(render_path, image_name + f"_{idx:05d}" + ".png"))
-        torchvision.utils.save_image(gt, os.path.join(gts_path, image_name + ".png"))
-    
+            # 3. 測量硬碟 I/O (存圖) 時間
+            image_name = view_cam.image_path.split('/')[-1].split('.')[0]
+            torchvision.utils.save_image(rendering_torch, os.path.join(render_path, image_name + f"_{idx:05d}" + ".png"))
+            torchvision.utils.save_image(gt, os.path.join(gts_path, image_name + ".png"))
+            t3 = time.time()
+
+            # 印出前幾個 iteration 的時間分佈
+            if idx < 50:
+                print(f"\n[Iter {idx}] Loader: {t0-t4:.4f}s | Render: {t1-t0:.4f}s | GPU->CPU: {t2-t1:.4f}s | Disk I/O: {t3-t2:.4f}s")
+            t4 = time.time()
+            global_idx += 1
     if not args.skip_video:
         imageio.mimsave(render_path+'video.mp4', [frame for frame in frames], fps=25)
         imageio.mimsave(render_path+'-gt.mp4', [frame for frame in gts], fps=25)
@@ -69,11 +89,25 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         bg_color = [0.125,0.216,0.157]
         background = torch.tensor(bg_color, dtype=torch.float32, device="cuda")
 
+        # DataLoader 設定：num_workers 控制平行讀圖的 CPU 子進程數
+        # pin_memory=True 可加速 CPU→GPU 的資料傳輸
+        num_workers = args.num_workers if hasattr(args, 'num_workers') else 11
+
         # if not skip_train:
-        #      render_set(dataset.model_path, "train", scene.loaded_iter, scene.getTrainCameras(), gaussians, pipeline, background)
+        #     train_loader = DataLoader(scene.getTrainCameras(), batch_size=1,
+        #                               num_workers=num_workers, pin_memory=True,
+        #                               collate_fn=camera_collate_fn)
+        #     render_set(dataset.model_path, "train", scene.loaded_iter, train_loader, gaussians, pipeline, background)
 
         if not skip_test:
-            render_set(dataset.model_path, "test", scene.loaded_iter, scene.getTestCameras(), gaussians, pipeline, background)
+            test_loader = DataLoader(
+                scene.getTestCameras(),
+                batch_size=1,
+                num_workers=num_workers,
+                pin_memory=True,
+                collate_fn=camera_collate_fn,
+            )
+            render_set(dataset.model_path, "test", scene.loaded_iter, test_loader, gaussians, pipeline, background)
 
 if __name__ == "__main__":
     # Set up command line argument parser
@@ -83,7 +117,8 @@ if __name__ == "__main__":
     parser.add_argument("--iteration", default=-1, type=int)
     parser.add_argument("--skip_train", action="store_true")
     parser.add_argument("--skip_test", action="store_true")
-
+    parser.add_argument("--num_workers", default=4, type=int,
+                        help="Number of DataLoader worker processes for parallel image loading")
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument("--time_duration", nargs=2, type=float, default=[-0.5, 1.5])
     parser.add_argument("--skip_video", action="store_true")
