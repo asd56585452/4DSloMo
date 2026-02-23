@@ -78,7 +78,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
     training_dataset = scene.getTrainCameras()
     # import pdb
     # pdb.set_trace()
-    training_dataloader = DataLoader(training_dataset, batch_size=batch_size, shuffle=True, num_workers=12 if dataset.dataloader else 0, collate_fn=lambda x: x, drop_last=True)
+    training_dataloader = DataLoader(training_dataset, batch_size=batch_size, shuffle=True, num_workers=6 if dataset.dataloader else 0, collate_fn=lambda x: x, drop_last=True)
      
     iteration = first_iter
     while iteration < opt.iterations + 1:
