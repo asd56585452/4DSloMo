@@ -92,8 +92,8 @@ class Scene:
     def save(self, iteration):
         torch.save((self.gaussians.capture(), iteration), self.model_path + "/chkpnt" + str(iteration) + ".pth")
 
-    def getTrainCameras(self, scale=1.0):
-        return CameraDataset(self.train_cameras[scale].copy(), self.white_background)
+    def getTrainCameras(self, scale=1.0, preload=False, preload_workers=11):
+        return CameraDataset(self.train_cameras[scale].copy(), self.white_background, preload=preload, preload_workers=preload_workers)
         
-    def getTestCameras(self, scale=1.0):
-        return CameraDataset(self.test_cameras[scale].copy(), self.white_background)
+    def getTestCameras(self, scale=1.0, preload=False, preload_workers=11):
+        return CameraDataset(self.test_cameras[scale].copy(), self.white_background, preload=preload, preload_workers=preload_workers)

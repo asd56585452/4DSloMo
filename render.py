@@ -31,6 +31,8 @@ import imageio
 
 import os
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:128"
+from concurrent.futures import ThreadPoolExecutor
+
 def render_set(model_path, name, iteration, loader, gaussians, pipeline, background):
     render_path = os.path.join(model_path, name, "ours_{}".format(iteration), "renders")
     gts_path = os.path.join(model_path, name, "ours_{}".format(iteration), "gt")
@@ -39,6 +41,10 @@ def render_set(model_path, name, iteration, loader, gaussians, pipeline, backgro
     frames = []
     gts = []
     global_idx = 0
+    
+    # Initialize a ThreadPoolExecutor for background disk I/O
+    io_executor = ThreadPoolExecutor(max_workers=8)
+
     t4 = time.time()
     for gt_images, view_cams in tqdm(loader, desc="Rendering progress"):
         # gt_images: (B, C, H, W) CPU tensor from DataLoader workers
@@ -63,17 +69,31 @@ def render_set(model_path, name, iteration, loader, gaussians, pipeline, backgro
                 gts.append(gt_numpy)
             t2 = time.time()
 
-            # 3. 測量硬碟 I/O (存圖) 時間
+            # 3. 測量硬碟 I/O (存圖) 時間 - 改交給背景執行緒
             image_name = view_cam.image_path.split('/')[-1].split('.')[0]
-            torchvision.utils.save_image(rendering_torch, os.path.join(render_path, image_name + f"_{idx:05d}" + ".png"))
-            torchvision.utils.save_image(gt, os.path.join(gts_path, image_name + ".png"))
+            io_executor.submit(
+                torchvision.utils.save_image, 
+                rendering_torch.clone().cpu(), 
+                os.path.join(render_path, image_name + f"_{idx:05d}" + ".png")
+            )
+            io_executor.submit(
+                torchvision.utils.save_image, 
+                gt.clone().cpu(), 
+                os.path.join(gts_path, image_name + ".png")
+            )
             t3 = time.time()
 
             # 印出前幾個 iteration 的時間分佈
             if idx < 50:
-                print(f"\n[Iter {idx}] Loader: {t0-t4:.4f}s | Render: {t1-t0:.4f}s | GPU->CPU: {t2-t1:.4f}s | Disk I/O: {t3-t2:.4f}s")
+                print(background)
+                print(f"\n[Iter {idx}] Loader: {t0-t4:.4f}s | Render: {t1-t0:.4f}s | GPU->CPU: {t2-t1:.4f}s | Disk I/O (Async submit): {t3-t2:.4f}s")
             t4 = time.time()
             global_idx += 1
+            
+    # Wait for all asynchronous disk I/O to finish before making videos
+    print("Waiting for background image saving to complete...")
+    io_executor.shutdown(wait=True)
+    
     if not args.skip_video:
         imageio.mimsave(render_path+'video.mp4', [frame for frame in frames], fps=25)
         imageio.mimsave(render_path+'-gt.mp4', [frame for frame in gts], fps=25)
@@ -86,7 +106,7 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
 
         bg_color = [1,1,1] if dataset.white_background else [0, 0, 0]
         bg_color = [1,1,1] 
-        bg_color = [0.125,0.216,0.157]
+        # bg_color = [0.125,0.216,0.157]
         background = torch.tensor(bg_color, dtype=torch.float32, device="cuda")
 
         # DataLoader 設定：num_workers 控制平行讀圖的 CPU 子進程數

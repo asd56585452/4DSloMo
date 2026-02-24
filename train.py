@@ -35,7 +35,7 @@ except ImportError:
     TENSORBOARD_FOUND = False
 
 def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoint, debug_from,
-             gaussian_dim, time_duration, num_pts, num_pts_ratio, rot_4d, force_sh_3d, batch_size):
+             gaussian_dim, time_duration, num_pts, num_pts_ratio, rot_4d, force_sh_3d, batch_size, preload=False):
     
     if dataset.frame_ratio > 1:
         time_duration = [time_duration[0] / dataset.frame_ratio,  time_duration[1] / dataset.frame_ratio]
@@ -75,10 +75,13 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         
     gaussians.env_map = env_map
         
-    training_dataset = scene.getTrainCameras()
+    training_dataset = scene.getTrainCameras(preload=preload)
     # import pdb
     # pdb.set_trace()
-    training_dataloader = DataLoader(training_dataset, batch_size=batch_size, shuffle=True, num_workers=11 if dataset.dataloader else 0, collate_fn=lambda x: x, drop_last=True)
+    training_dataloader = DataLoader(training_dataset, batch_size=batch_size, shuffle=True,
+                                     num_workers=0 if (preload or not dataset.dataloader) else 11,
+                                     collate_fn=lambda x: x, drop_last=True,
+                                     pin_memory=preload)
      
     iteration = first_iter
     while iteration < opt.iterations + 1:
@@ -362,7 +365,7 @@ if __name__ == "__main__":
     parser.add_argument('--debug_from', type=int, default=-1)
     parser.add_argument('--detect_anomaly', action='store_true', default=False)
     parser.add_argument("--test_iterations", nargs="+", type=int, default=[])
-    parser.add_argument("--save_iterations", nargs="+", type=int, default=[7000,30_000])
+    parser.add_argument("--save_iterations", nargs="+", type=int, default=[7000,30_000,43750])
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument("--start_checkpoint", type=str, default = None)
     
@@ -375,6 +378,7 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", type=int, default=1)
     parser.add_argument("--seed", type=int, default=6667)
     parser.add_argument("--exhaust_test", action="store_true")
+    parser.add_argument("--preload", action="store_true", help="Preload all training images into RAM before training starts")
     
     args = parser.parse_args(sys.argv[1:])
     args.save_iterations.append(args.iterations)
@@ -405,7 +409,7 @@ if __name__ == "__main__":
 
     torch.autograd.set_detect_anomaly(args.detect_anomaly)
     training(lp.extract(args), op.extract(args), pp.extract(args), args.test_iterations, args.save_iterations, args.start_checkpoint, args.debug_from,
-             args.gaussian_dim, args.time_duration, args.num_pts, args.num_pts_ratio, args.rot_4d, args.force_sh_3d, args.batch_size)
+             args.gaussian_dim, args.time_duration, args.num_pts, args.num_pts_ratio, args.rot_4d, args.force_sh_3d, args.batch_size, preload=args.preload)
 
     # All done
     print("\nTraining complete.")
